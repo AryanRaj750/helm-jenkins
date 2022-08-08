@@ -19,7 +19,7 @@ container:
   name: "jenkins-container"
 
 storageClassName: local-storage
-volumes:
+volume:
   name: jenkins-pv
   mountPath: /var/jenkins_home
 
