@@ -15,7 +15,7 @@ spec:
         app: jenkins
     spec:
       containers:
-      - name: {{ .Values.container.name }}
+      - name: jenkins-container
         image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.container.port }}
