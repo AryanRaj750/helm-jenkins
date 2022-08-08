@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-deployment
+  name: jenkins
   labels:
     app: jenkins
 spec:
@@ -15,14 +15,14 @@ spec:
         app: jenkins
     spec:
       containers:
-      - name: jenkins-container
-        image:  jenkins/jenkins:lts-jdk11
+      - name: {{ Values.container.name }}
+        image:  "{{ Values.image.repository }}:{{ Values.image.tag }}"
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.container.port }}
         volumeMounts:
-          - mountPath: /var/jenkins_home
-            name: my-pv
+          - mountPath: {{ .Values.volume.mountPath }}
+            name: {{ .Values.volume.name }}
       volumes:
-       - name: my-pv
+       - name: {{ .Values.volume.name }}
          hostPath:
-           path: /var/tmp
+           path: {{ .Values.persistentVolume.path }}
