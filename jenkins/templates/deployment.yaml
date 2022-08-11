@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins-container
+        image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.container.port }}
+        volumeMounts:
+          - mountPath: {{ .Values.volume.mountPath }}
+            name: {{ .Value.volumeName }}
+      volumes:
+       - name: {{ .Values.volumeName }}
+         persistentVolumeClaim:
+            claimName: {{ .pvcName }}
+

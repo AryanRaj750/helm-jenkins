@@ -1,0 +1,41 @@
+replicaCount: 1
+
+image:
+  repository: "jenkins/jenkins"
+  pullPolicy: IfNotPresent
+  tag: "lts-jdk11"
+
+
+container:
+  port: 8080
+
+storageClassName: local-storage
+
+# volume related fields
+volumeName: "jenkins-vol"
+volumeMountPath: /var/jenkins_home
+
+#persistent Volume related fields
+pvName: "jenkins-pv"
+pvSize: 3Gi
+pvPath: /var/tmp
+
+#persistenctVolumeClaim related fields
+pvcName: "jenkins-pvc"
+pvcStorageSize: 3Gi
+
+#service related fields
+service:
+  name: jenkins
+  type: NodePort
+  port: 80
+  protocol: TCP
+  nodePort: 30001
+  targetPort: 8080
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  #targetMemoryUtilizationPercentage: 80
